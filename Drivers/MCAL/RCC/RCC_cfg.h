@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 14, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 
 #ifndef MCAL_RCC_RCC_CFG_H_

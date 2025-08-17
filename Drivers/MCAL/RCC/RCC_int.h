@@ -3,13 +3,12 @@
  *
  *  Created on: Aug 14, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 
 #ifndef MCAL_RCC_RCC_INT_H_
 #define MCAL_RCC_RCC_INT_H_
 
-#include "RCC_prv.h"
 
 /* Buses */
 #define RCC_AHB1	0
@@ -17,11 +16,10 @@
 #define RCC_APB1	2
 #define RCC_APB2	3
 
-/* Prepherals*/
-/** Bus : AHB1
- * GPIOAEN
- * GPIOBEN
- */
+/* ------- Peripherals --------*/
+// Bus : RCC_AHB1
+#define RCC_GPIOA	0
+#define RCC_GPIOB	1
 
 void MRCC_vInit(void);
 void MRCC_vEnableClk(u8 A_u8BusID, u8 A_u8PeripheralID);

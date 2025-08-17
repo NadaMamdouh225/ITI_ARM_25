@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 14, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 
 #include "../../LIB/STD_TYPES.h"
@@ -31,8 +31,8 @@ void MRCC_vInit(void)
 	while(GET_BIT(RCC->CR,17) == 0)
 		;
 	// switch to hse
-	CLR_BIT(RCC-> CFGR, 1);
-	SET_BIT(RCC-> CFGR, 0);
+	CLR_BIT(RCC->CFGR, 1);
+	SET_BIT(RCC->CFGR, 0);
 
 	// CSSON enable/disable
 
@@ -45,8 +45,8 @@ void MRCC_vInit(void)
 	while(GET_BIT(RCC->CR,1) == 0)
 		;
 	// switch to hsi
-	CLR_BIT(RCC-> CFGR, 1);
-	CLR_BIT(RCC-> CFGR, 0);
+	CLR_BIT(RCC->CFGR, 1);
+	CLR_BIT(RCC->CFGR, 0);
 
 #elif RCC_SYS_CLK == PLL_CLK
 
@@ -61,7 +61,12 @@ void MRCC_vEnableClk(u8 A_u8BusID, u8 A_u8PeripheralID)
 	switch(A_u8BusID)
 	{
 	case RCC_AHB1:
-		SET_BIT(RCC->AHB1ENR, A_u8PeripheralID);
+		switch(A_u8PeripheralID)
+		{
+		case RCC_GPIOA: SET_BIT(RCC->AHB1ENR, GPIOAEN);break;
+		case RCC_GPIOB: SET_BIT(RCC->AHB1ENR, GPIOBEN);break;
+		}
+
 		break;
 	case RCC_AHB2:
 		SET_BIT(RCC->AHB2ENR, A_u8PeripheralID);
