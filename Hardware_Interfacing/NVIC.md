@@ -28,7 +28,7 @@ int main(void)
 	return 0 ;
 }
 
-EXTI0_IRQHandler(void)
+void EXTI0_IRQHandler(void)
 {
 	MGPIO_vSetPinValue(GPIO_PORTA, GPIO_PIN0, GPIO_HIGH);
 }
