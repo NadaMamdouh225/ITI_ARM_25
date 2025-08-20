@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 17, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.1
+ *      Version: 0.2
  */
 #include "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
@@ -216,6 +216,20 @@ void MGPIO_vPinInit(GPIOx_PinConfig_t* A_xPinCfg)
 //{
 //
 //}
-
+void MGPIO_TogPinValue(u8 A_u8PortID, u8 A_u8PinNum)
+{
+	switch(A_u8PortID)
+	{
+	case GPIO_PORTA:
+		TOG_BIT(GPIOA -> ODR, A_u8PinNum);
+		break;
+	case GPIO_PORTB:
+		TOG_BIT(GPIOB -> ODR, A_u8PinNum);
+		break;
+	case GPIO_PORTC:
+		TOG_BIT(GPIOC -> ODR, A_u8PinNum);
+		break;
+	}
+}
 
 

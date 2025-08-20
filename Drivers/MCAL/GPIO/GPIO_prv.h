@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 17, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.1
+ *      Version: 0.2
  */
 
 #ifndef MCAL_GPIO_GPIO_PRV_H_
