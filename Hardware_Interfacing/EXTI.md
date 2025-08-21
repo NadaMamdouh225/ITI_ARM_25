@@ -31,7 +31,7 @@ int main(void)
 	EXTI_Cng_t x = {0,0};       // no need right now, just to keep init func as it is
 	MEXTI_vInit(&x);
 	MEXTI_vEnableINT(EXTI_LINE0, EXTI_FALLING_EDGE);
-	MEXTI_vSetCallBack(TogLed);
+	MEXTI_vSetCallBack(TogLed,EXTI_LINE0);
 
 	MNVIC_vEnable_Peripheral_INT(6);
 
