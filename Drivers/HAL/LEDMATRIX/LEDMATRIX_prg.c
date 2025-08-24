@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 21, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 
 #include "../../LIB/STD_TYPES.h"
@@ -19,30 +19,17 @@ static void HLEDMATRIX_vEnableCurrentCol(u8 A_u8ColNo);
 static void HLEDMATRIX_SetRowValue(u8 A_u8RowValue);
 static void HLEDMATRIX_vDisableAllCol(void);
 
-GPIOx_PinConfig_t rows[NO_ROWS] = {
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN0, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN1, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN2, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN3, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN4, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN5, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN6, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTA,.Pin = GPIO_PIN7, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-};
+GPIOx_PinConfig_t *rows;
+GPIOx_PinConfig_t *cols;
+u8 NO_ROWS;
+u8 NO_COLS;
 
-GPIOx_PinConfig_t cols[NO_COLS] = {
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN0, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN1, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN2, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN5, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN6, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN7, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN8, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-		{.Port = GPIO_PORTB,.Pin = GPIO_PIN9, .Mode = GPIO_MODE_OUTPUT, .OutputType = GPIO_OT_PUSHPULL, .Speed = GPIO_SPEED_LOW},
-};
-
-void HLEDMATRIX_vInit(void)
+void HLEDMATRIX_vInit(GPIOx_PinConfig_t *A_xRows, u8 A_u8RowsNo, GPIOx_PinConfig_t *A_xCols, u8 A_u8ColNo)
 {
+	rows = A_xRows;
+	cols = A_xCols;
+	NO_ROWS = A_u8RowsNo;
+	NO_COLS = A_u8ColNo;
 
 	for(u8 i=0; i<NO_ROWS; i++)
 	{
