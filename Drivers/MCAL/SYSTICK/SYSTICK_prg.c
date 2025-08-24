@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 21, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 #include  "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
@@ -57,10 +57,10 @@ void MSYSTICK_vStopTimer(void)
 	CLR_BIT(SYSTICK->CTRL, ENABLE);
 }
 
-void MSYSTICK_vSetDelay_ms(u32 A_u32Delay_ms)
+void MSYSTICK_vSetDelay_ms(f64 A_u32Delay_ms)
 {
 	// in case clksrc = 25Mhz/8
-	u32 L_u32Ticks = A_u32Delay_ms * 3125;
+	u32 L_u32Ticks = (u32)(A_u32Delay_ms * 3125.0);
 
 	/* Reset Timer */
 	SYSTICK->VAL = 0;
