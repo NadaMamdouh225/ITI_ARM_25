@@ -105,7 +105,7 @@ void EXTI1_IRQHandler(void)
 	// clear pending flag
 	SET_BIT(EXTI->PR,EXTI_LINE1);
 }
-void EXTI9_5IRQHandler(void)
+void EXTI9_5_IRQHandler(void)
 {
 	if(GET_BIT(EXTI->PR, EXTI_LINE5))
 	{
