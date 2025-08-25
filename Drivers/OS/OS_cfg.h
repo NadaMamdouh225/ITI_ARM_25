@@ -3,13 +3,13 @@
  *
  *  Created on: Aug 24, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 
 #ifndef SRC_OS_OS_CFG_H_
 #define SRC_OS_OS_CFG_H_
 
 #define MAX_NO_TASKS	10
-
+#define TICKTIME		100
 
 #endif /* SRC_OS_OS_CFG_H_ */

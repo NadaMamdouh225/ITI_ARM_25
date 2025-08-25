@@ -3,11 +3,13 @@
  *
  *  Created on: Aug 24, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version: 0.1
  */
 
 #include "../LIB/STD_TYPES.h"
 #include "../LIB/BIT_MATH.h"
+
+#include "../MCAL/SYSTICK/SYSTICK_int.h"
 
 #include "OS_int.h"
 #include "OS_prv.h"
@@ -21,13 +23,17 @@ static void OS_Scheduler(void);
 
 void OS_vStart(void)
 {
+	MSYSTICK_Config_t STK_cfg = {.InterruptEnable = INT_ENABLE, .CLK_SRC = CLK_SRC_AHB_8 };
+	MSYSTICK_vInit(& STK_cfg);
+
+	MSYSTICK_vSetInterval_Multi(TICKTIME, OS_Scheduler);
 
 }
 u8 OS_u8CreateTask(void (*A_xFptr)(void),u32 A_u32Periodicity,u8 A_u8Priority, u32 A_u32FirstDelay)
 {
 	u8 L_u8ErrorState = 0;
 	//Range
-	if(A_u8Priority >=0 && A_u8Priority < MAX_NO_TASKS)
+	if((A_u8Priority >=0) && (A_u8Priority < MAX_NO_TASKS))
 	{
 		// if there is no task in this index
 		if(System_Tasks[A_u8Priority].Fptr == 0)
@@ -35,7 +41,7 @@ u8 OS_u8CreateTask(void (*A_xFptr)(void),u32 A_u32Periodicity,u8 A_u8Priority, u
 			System_Tasks[A_u8Priority].Fptr = A_xFptr;
 			System_Tasks[A_u8Priority].Periodicity = A_u32Periodicity;
 			System_Tasks[A_u8Priority].State = Running;
-			TimingTask[A_u8Priority] = A_u32Periodicity;
+			TimingTask[A_u8Priority] = A_u32FirstDelay;
 
 		}else
 		{
@@ -57,11 +63,17 @@ void OS_Scheduler(void)
 
 		if(System_Tasks[counter].State == Running)
 		{
-			if(TimingTask[counter] == 0 || TimingTask[counter] > System_Tasks[counter].Periodicity)
+			if((TimingTask[counter] == 0) || (TimingTask[counter] > System_Tasks[counter].Periodicity))
 			{
+				/* Run task*/
 				System_Tasks[counter].Fptr();
+
+				/*Reload */
+				TimingTask[counter] = System_Tasks[counter].Periodicity;
+
 			}else
 			{
+
 				TimingTask[counter]--;
 			}
 
