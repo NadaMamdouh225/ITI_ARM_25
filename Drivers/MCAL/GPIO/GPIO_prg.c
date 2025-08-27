@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 17, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.2
+ *      Version: 0.3
  */
 #include "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
@@ -212,10 +212,48 @@ void MGPIO_vPinInit(GPIOx_PinConfig_t* A_xPinCfg)
 	/* TODO: Alternate function */
 }
 
-//void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx)
-//{
-//
-//}
+void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx)
+{
+	if(A_u8PinNum < 8)
+	{
+		switch(A_u8PortID)
+		{
+		case GPIO_PORTA:
+			GPIOA->AFRL &= ~(0b1111<<(A_u8PinNum*4));
+			GPIOA->AFRL |= (A_u16AFx<<(A_u8PinNum*4));
+			break;
+		case GPIO_PORTB:
+			GPIOB->AFRL &= ~(0b1111<<(A_u8PinNum*4));
+			GPIOB->AFRL |= (A_u16AFx<<(A_u8PinNum*4));
+			break;
+		case GPIO_PORTC:
+			GPIOC->AFRL &= ~(0b1111<<(A_u8PinNum*4));
+			GPIOC->AFRL |= (A_u16AFx<<(A_u8PinNum*4));
+			break;
+		default:
+			break;
+		}
+	}else if((A_u8PinNum>=8) && (A_u8PinNum<16) )
+	{
+		switch(A_u8PortID)
+		{
+		case GPIO_PORTA:
+			GPIOA->AFRH &= ~(0b1111<<((A_u8PinNum-8)*4));
+			GPIOA->AFRH |= (A_u16AFx<<((A_u8PinNum-8)*4));
+			break;
+		case GPIO_PORTB:
+			GPIOB->AFRH &= ~(0b1111<<((A_u8PinNum-8)*4));
+			GPIOB->AFRH |= (A_u16AFx<<((A_u8PinNum-8)*4));
+			break;
+		case GPIO_PORTC:
+			GPIOC->AFRH &= ~(0b1111<<((A_u8PinNum-8)*4));
+			GPIOC->AFRH |= (A_u16AFx<<((A_u8PinNum-8)*4));
+			break;
+		default:
+			break;
+		}
+	}
+}
 void MGPIO_TogPinValue(u8 A_u8PortID, u8 A_u8PinNum)
 {
 	switch(A_u8PortID)
@@ -230,6 +268,55 @@ void MGPIO_TogPinValue(u8 A_u8PortID, u8 A_u8PinNum)
 		TOG_BIT(GPIOC -> ODR, A_u8PinNum);
 		break;
 	}
+}
+void MGPIO_vSetPinValueAtomic(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8Value)
+{
+	if( (A_u8PortID == GPIO_PORTA)&& (A_u8PinNum == 13|| A_u8PinNum == 14|| A_u8PinNum == 15))
+	{
+
+	}else if ((A_u8PortID == GPIO_PORTB)&& (A_u8PinNum == 3|| A_u8PinNum == 4)){
+
+
+	}else{
+		if (A_u8Value == GPIO_HIGH)
+		{
+			switch (A_u8PortID)
+			{
+			case GPIO_PORTA:
+				GPIOA->BSRR = 1<<(A_u8PinNum);
+				break;
+			case GPIO_PORTB:
+				GPIOB->BSRR = 1<<(A_u8PinNum);
+				break;
+			case GPIO_PORTC:
+				GPIOC->BSRR = 1<<(A_u8PinNum);
+				break;
+			default:
+				break;
+
+			}
+		}else if(A_u8Value == GPIO_LOW)
+		{
+
+			switch (A_u8PortID)
+			{
+			case GPIO_PORTA:
+				GPIOA->BSRR = 1<<(A_u8PinNum+16);
+				break;
+			case GPIO_PORTB:
+				GPIOB->BSRR = 1<<(A_u8PinNum+16);
+				break;
+			case GPIO_PORTC:
+				GPIOC->BSRR = 1<<(A_u8PinNum+16);
+				break;
+			default:
+				break;
+
+			}
+		}
+
+	}
+
 }
 
 

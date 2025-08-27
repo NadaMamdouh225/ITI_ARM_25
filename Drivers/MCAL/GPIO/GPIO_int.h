@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 17, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.2
+ *      Version: 0.3
  */
 
 #ifndef MCAL_GPIO_GPIO_INT_H_
@@ -75,8 +75,9 @@ void MGPIO_vSetOutputType(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8OutputType);
 void MGPIO_vSetOutputSpeed(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8OutputSpeed);
 void MGPIO_vSetPULLType(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8PushPull);
 void MGPIO_vSetPinValue(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8Value);
+void MGPIO_vSetPinValueAtomic(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8Value);
 void MGPIO_TogPinValue(u8 A_u8PortID, u8 A_u8PinNum);
 u8 MGPIO_u8GetPinValue(u8 A_u8PortID, u8 A_u8PinNum);
-void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8AFx);
+void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx);
 
 #endif /* MCAL_GPIO_GPIO_INT_H_ */
