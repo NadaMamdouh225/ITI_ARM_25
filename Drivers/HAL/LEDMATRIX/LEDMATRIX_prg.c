@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 21, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.1
+ *      Version: 0.2
  */
 
 #include "../../LIB/STD_TYPES.h"
@@ -11,8 +11,10 @@
 
 #include "../../MCAL/GPIO/GPIO_int.h"
 #include "../../MCAL/SYSTICK/SYSTICK_int.h"
+#include "../../HAL/S2P/S2P_int.h"
 
 #include "LEDMATRIX_int.h"
+#include "LEDMATRIX_prv.h"
 #include "LEDMATRIX_cfg.h"
 
 static void HLEDMATRIX_vEnableCurrentCol(u8 A_u8ColNo);
@@ -24,6 +26,15 @@ GPIOx_PinConfig_t *cols;
 u8 NO_ROWS;
 u8 NO_COLS;
 
+void HLEDMATRIX_vInit_S2P(S2P_Init_t* A_xInit)
+{
+	S2P_vInit(&A_xInit);
+
+	/* Initialize Systick */
+	MSYSTICK_Config_t STK_cfg = {.InterruptEnable= INT_DISABLE ,.CLK_SRC = CLK_SRC_AHB_8};
+	MSYSTICK_vInit(& STK_cfg);
+
+}
 void HLEDMATRIX_vInit(GPIOx_PinConfig_t *A_xRows, u8 A_u8RowsNo, GPIOx_PinConfig_t *A_xCols, u8 A_u8ColNo)
 {
 	rows = A_xRows;
@@ -51,6 +62,7 @@ void HLEDMATRIX_DisplayFrame(u8 A_u8Frame[], u32 A_u32FrameDelay)
 
 		for(u8 i = 0; i<NO_COLS; i++)
 		{
+#if METHOD == DIRECT_LEDMATRIX
 			/* Set Row Value */
 			HLEDMATRIX_SetRowValue(A_u8Frame[i]);
 
@@ -62,6 +74,14 @@ void HLEDMATRIX_DisplayFrame(u8 A_u8Frame[], u32 A_u32FrameDelay)
 
 			/* Disable All Cols */
 			HLEDMATRIX_vDisableAllCol();
+#endif
+#if METHOD == S2P_CONNECTION
+			// 1- disable cols
+			//2- set row & enable current col
+			//3- delay
+
+#endif
+
 		}
 	}
 
