@@ -73,7 +73,7 @@ void S2P_vSendData(S2P_Init_t* A_xInit, u32 A_u32Byte)
 	for(u8 i=0; i<8* S2P_NO_OF_SHIFT_GEG;i++)
 	{
 		MGPIO_vSetPinValue(A_xInit->DataPort, A_xInit->DataPin, GET_BIT(A_u32Byte,i));
-		S2P_vShiftData(&A_xInit);
+		S2P_vShiftData(A_xInit);
 	}
-	S2P_vLatchData(&A_xInit);
+	S2P_vLatchData(A_xInit);
 }
