@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 17, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.3
+ *      Version: 0.4
  */
 
 #ifndef MCAL_GPIO_GPIO_INT_H_
@@ -68,6 +68,23 @@ typedef struct
 #define GPIO_PIN14	14
 #define GPIO_PIN15	15
 
+#define GPIO_AF0	0b0000
+#define GPIO_AF1	0b0001
+#define GPIO_AF2	0b0010
+#define GPIO_AF3	0b0011
+#define GPIO_AF4	0b0100
+#define GPIO_AF5	0b0101
+#define GPIO_AF6	0b0110
+#define GPIO_AF7	0b0111
+#define GPIO_AF8	0b1000
+#define GPIO_AF9	0b1001
+#define GPIO_AF10	0b1010
+#define GPIO_AF11	0b1011
+#define GPIO_AF12	0b1100
+#define GPIO_AF13	0b1101
+#define GPIO_AF14	0b1110
+#define GPIO_AF15	0b1111
+
 
 void MGPIO_vPinInit(GPIOx_PinConfig_t* A_xPinCfg);
 void MGPIO_vSetMode(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8Mode);
@@ -78,6 +95,7 @@ void MGPIO_vSetPinValue(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8Value);
 void MGPIO_vSetPinValueAtomic(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8Value);
 void MGPIO_TogPinValue(u8 A_u8PortID, u8 A_u8PinNum);
 u8 MGPIO_u8GetPinValue(u8 A_u8PortID, u8 A_u8PinNum);
-void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx);
+void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8AFx);
+
 
 #endif /* MCAL_GPIO_GPIO_INT_H_ */

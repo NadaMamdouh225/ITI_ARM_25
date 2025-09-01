@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 17, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.3
+ *      Version: 0.4
  */
 #include "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
@@ -210,9 +210,10 @@ void MGPIO_vPinInit(GPIOx_PinConfig_t* A_xPinCfg)
 	MGPIO_vSetOutputSpeed(A_xPinCfg->Port, A_xPinCfg->Pin, A_xPinCfg->Speed);
 	MGPIO_vSetPULLType(A_xPinCfg->Port, A_xPinCfg->Pin, A_xPinCfg->PullType);
 	/* TODO: Alternate function */
+	MGPIO_vSetAlt(A_xPinCfg->Port, A_xPinCfg->Pin,A_xPinCfg->Altfunc);
 }
 
-void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx)
+void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u8 A_u8AFx)
 {
 	if(A_u8PinNum < 8)
 	{
@@ -220,15 +221,15 @@ void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx)
 		{
 		case GPIO_PORTA:
 			GPIOA->AFRL &= ~(0b1111<<(A_u8PinNum*4));
-			GPIOA->AFRL |= (A_u16AFx<<(A_u8PinNum*4));
+			GPIOA->AFRL |= (A_u8AFx<<(A_u8PinNum*4));
 			break;
 		case GPIO_PORTB:
 			GPIOB->AFRL &= ~(0b1111<<(A_u8PinNum*4));
-			GPIOB->AFRL |= (A_u16AFx<<(A_u8PinNum*4));
+			GPIOB->AFRL |= (A_u8AFx<<(A_u8PinNum*4));
 			break;
 		case GPIO_PORTC:
 			GPIOC->AFRL &= ~(0b1111<<(A_u8PinNum*4));
-			GPIOC->AFRL |= (A_u16AFx<<(A_u8PinNum*4));
+			GPIOC->AFRL |= (A_u8AFx<<(A_u8PinNum*4));
 			break;
 		default:
 			break;
@@ -239,15 +240,15 @@ void MGPIO_vSetAlt(u8 A_u8PortID, u8 A_u8PinNum, u16 A_u16AFx)
 		{
 		case GPIO_PORTA:
 			GPIOA->AFRH &= ~(0b1111<<((A_u8PinNum-8)*4));
-			GPIOA->AFRH |= (A_u16AFx<<((A_u8PinNum-8)*4));
+			GPIOA->AFRH |= (A_u8AFx<<((A_u8PinNum-8)*4));
 			break;
 		case GPIO_PORTB:
 			GPIOB->AFRH &= ~(0b1111<<((A_u8PinNum-8)*4));
-			GPIOB->AFRH |= (A_u16AFx<<((A_u8PinNum-8)*4));
+			GPIOB->AFRH |= (A_u8AFx<<((A_u8PinNum-8)*4));
 			break;
 		case GPIO_PORTC:
 			GPIOC->AFRH &= ~(0b1111<<((A_u8PinNum-8)*4));
-			GPIOC->AFRH |= (A_u16AFx<<((A_u8PinNum-8)*4));
+			GPIOC->AFRH |= (A_u8AFx<<((A_u8PinNum-8)*4));
 			break;
 		default:
 			break;
