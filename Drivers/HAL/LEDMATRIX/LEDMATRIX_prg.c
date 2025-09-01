@@ -28,7 +28,7 @@ u8 NO_COLS;
 
 void HLEDMATRIX_vInit_S2P(S2P_Init_t* A_xInit)
 {
-	S2P_vInit(&A_xInit);
+	S2P_vInit(A_xInit);
 
 	/* Initialize Systick */
 	MSYSTICK_Config_t STK_cfg = {.InterruptEnable= INT_DISABLE ,.CLK_SRC = CLK_SRC_AHB_8};
