@@ -23,7 +23,7 @@ void MUSART_vInit(void)
 	// no parity
 	CLR_BIT(USART1->CR1, 10);
 
-	// baudrate
+	// baudrate 9600, APB2 clk is 25MHz
 	USART1->BRR = 162<<4 | 13;
 
 	// 1 stop bit
