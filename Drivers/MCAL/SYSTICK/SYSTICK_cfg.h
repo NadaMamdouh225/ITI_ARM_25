@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 21, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.1
+ *      Version: 0.2
  */
 
 #ifndef SRC_MCAL_SYSTICK_SYSTICK_CFG_H_

@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 21, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.1
+ *      Version: 0.2
  */
 #include  "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
@@ -43,7 +43,7 @@ void MSYSTICK_vInit(MSYSTICK_Config_t *A_xCfg)
 void MSYSTICK_vStartTimer(u32 A_u32LoadValue)
 {
 	/* Load Timer with a value */
-	SYSTICK->LOAD = A_u32LoadValue;
+	SYSTICK->LOAD = A_u32LoadValue * 3125;
 
 	/* Reset Timer */
 	SYSTICK->VAL = 0;
@@ -75,7 +75,23 @@ void MSYSTICK_vSetDelay_ms(f64 A_u32Delay_ms)
 	}
 
 }
+void MSYSTICK_vSetDelay_us(u32 A_u32Delay_us)
+{
+	// in case clksrc = 25Mhz/8
+	u32 L_u32Ticks = (u32)(A_u32Delay_us * 3.125);
 
+	/* Reset Timer */
+	SYSTICK->VAL = 0;
+	if((L_u32Ticks >= 0x00000001) && (L_u32Ticks < 0x00FFFFFF))
+	{
+		MSYSTICK_vStartTimer(L_u32Ticks);
+
+		// wait till timer flag is raised
+		while(GET_BIT(SYSTICK->CTRL, COUNTFLAG) == 0)
+			;
+		MSYSTICK_vStopTimer();
+	}
+}
 u32 MSYSTICK_u32GetElapsedTime_SingleShot(void)
 {
 	return (SYSTICK->LOAD) - (SYSTICK->VAL);
@@ -108,15 +124,15 @@ void MSYSTICK_vSetInterval_Multi(u32 A_u32Delay_ms, void(*A_xFptr)(void))
 	G_u8SingleFlag = 0;
 	u32 L_u32Ticks = A_u32Delay_ms * 3125;
 
-		G_xFptr = A_xFptr;
+	G_xFptr = A_xFptr;
 
-		/* Reset Timer */
-		SYSTICK->VAL = 0;
+	/* Reset Timer */
+	SYSTICK->VAL = 0;
 
-		if((L_u32Ticks >= 0x00000001) && (L_u32Ticks < 0x00FFFFFF))
-		{
-			MSYSTICK_vStartTimer(L_u32Ticks);
-		}
+	if((L_u32Ticks >= 0x00000001) && (L_u32Ticks < 0x00FFFFFF))
+	{
+		MSYSTICK_vStartTimer(L_u32Ticks);
+	}
 }
 
 void SysTick_Handler(void)

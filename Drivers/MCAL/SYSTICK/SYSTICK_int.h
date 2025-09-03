@@ -3,7 +3,7 @@
  *
  *  Created on: Aug 21, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.1
+ *      Version: 0.2
  */
 
 #ifndef SRC_MCAL_SYSTICK_SYSTICK_INT_H_
@@ -20,6 +20,7 @@ void MSYSTICK_vStartTimer(u32 A_u32LoadValue);
 void MSYSTICK_vStopTimer(void);
 
 void MSYSTICK_vSetDelay_ms(f64 A_u32Delay_ms);
+void MSYSTICK_vSetDelay_us(u32 A_u32Delay_us);
 
 u32 MSYSTICK_u32GetElapsedTime_SingleShot(void);
 u32 MSYSTICK_u32GetRemainingTime_SingleShot(void);
