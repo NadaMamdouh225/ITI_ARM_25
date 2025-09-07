@@ -66,7 +66,7 @@ void MRCC_vEnableClk(u8 A_u8BusID, u8 A_u8PeripheralID)
 		case RCC_GPIOA: SET_BIT(RCC->AHB1ENR, GPIOAEN);break;
 		case RCC_GPIOB: SET_BIT(RCC->AHB1ENR, GPIOBEN);break;
 		}
-
+		SET_BIT(RCC->AHB1ENR, A_u8PeripheralID);
 		break;
 	case RCC_AHB2:
 		SET_BIT(RCC->AHB2ENR, A_u8PeripheralID);
