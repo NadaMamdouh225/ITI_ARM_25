@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARM Session</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1> LED Control </h1>
+        <img id="myimg" src="off.png" width="100px">
+        <br>
+        <button onclick="sendData('on')">Turn on</button>
+        <button onclick="sendData('off')">Turn off</button>
+    </div>
+    <script>
+        function sendData(state)
+        {
+            // send data to php file
+            fetch("script.php?LedState="+ state);
+
+            let led = document.getElementById('myimg');
+            led.src = state  +".png"; // "off.png" "on.png"
+        }
+    </script>
+</body>
+</html>
