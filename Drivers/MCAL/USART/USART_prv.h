@@ -3,7 +3,7 @@
  *
  *  Created on: Sep 1, 2025
  *      Author: Nada Mamdouh
- *      Version: 0.0
+ *      Version:0.1
  */
 
 #ifndef SRC_MCAL_USART_USART_PRV_H_
