@@ -28,6 +28,6 @@ void HDAC_vSendSample(const u8* A_u8Ptr, u32 A_u32Index)
 {
 	for(u8 i=0; i<8; i++)
 	{
-		MGPIO_vSetPinValue(PortID, i, GET_BIT(A_u8Ptr[A_u32Index],i));
+		MGPIO_vSetPinValue(PortID, i, MGPIO_u8GetPinValue(A_u8Ptr[A_u32Index],i));
 	}
 }
