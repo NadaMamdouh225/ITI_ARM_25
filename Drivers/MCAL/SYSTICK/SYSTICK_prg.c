@@ -55,6 +55,9 @@ void MSYSTICK_vStopTimer(void)
 {
 	/* Stop Systick Counter */
 	CLR_BIT(SYSTICK->CTRL, ENABLE);
+
+	/* Reset Timer */
+		SYSTICK->VAL = 0;
 }
 
 void MSYSTICK_vSetDelay_ms(f64 A_u32Delay_ms)
