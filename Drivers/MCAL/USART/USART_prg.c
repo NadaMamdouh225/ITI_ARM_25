@@ -3,7 +3,7 @@
  *
  *  Created on: Sep 1, 2025
  *      Author: Nada Mamdouh
- *      Version:0.1
+ *      Version:0.2
  */
 #include "../../LIB/STD_TYPES.h"
 #include "../../LIB/BIT_MATH.h"
@@ -43,6 +43,46 @@ void MUSART_vInit(void)
 
 	// enable usart
 	SET_BIT(USART1->CR1, 13);
+
+}
+
+u8  MUSART_vReceive_synch(u8* A_pu8Byte)
+{
+	u8 L_u8status = 1 ;
+	if( GET_BIT(USART1->SR, 5) == 1 )
+	{
+		*A_pu8Byte = USART1->DR ;
+	}
+	else
+	{
+		L_u8status = 0;
+	}
+
+	return L_u8status ;
+}
+void MUSART_vEnable_TX_Interrupt(void)
+{
+	SET_BIT(USART1->CR1,7);
+}
+void MUSART_vDisable_TX_Interrupt(void)
+{
+	CLR_BIT(USART1->CR1,7);
+}
+void MUSART_vEnable_TC_Interrupt(void)
+{
+	SET_BIT(USART1->CR1,6);
+}
+void MUSART_vDisable_TC_Interrupt(void)
+{
+	CLR_BIT(USART1->CR1,6);
+}
+void MUSART_vEnable_RX_Interrupt(void)
+{
+	SET_BIT(USART1->CR1,5);
+}
+void MUSART_vDisable_RX_Interrupt(void)
+{
+	CLR_BIT(USART1->CR1,5);
 }
 void MUSART_vSendData(u8 A_u8Data)
 {
@@ -61,9 +101,10 @@ u8   MUSART_u8ReceiveData()
 {
 	while(!GET_BIT(USART1->SR,5))
 		;
+
 	return USART1->DR;
 }
-void MUSART_vSendString(u8* A_u8ptrStr)
+void MUSART_vSendString(char* A_u8ptrStr)
 {
 	u8 L_u8Index = 0;
 	while(A_u8ptrStr[L_u8Index]!='\0')
@@ -74,14 +115,17 @@ u8*  MUSART_u8ptrReceiveString(void) // check '\r' | '\n'
 {
 	u8 L_u8index = 0;
 	// carrige return
-	while(MUSART_u8ReceiveData()!='\r')
+	u8 ch ;
+
+	while((ch = MUSART_u8ReceiveData()) != '\r' && ch != '\n')
 	{
-		G_Buffer[L_u8index] = MUSART_u8ReceiveData();
+		G_Buffer[L_u8index] = ch;
 		L_u8index++;
 	}
 	G_Buffer[L_u8index] = '\0';
 	return G_Buffer;
 }
+
 void MUSART_vUSARTCallBack(u8 A_u8USARTNo, void(*Fptr)(void))
 {
 	// G_Fpt[0] -> USART1
@@ -90,6 +134,10 @@ void MUSART_vUSARTCallBack(u8 A_u8USARTNo, void(*Fptr)(void))
 	u8 L_u8index = (A_u8USARTNo==1)?0:(A_u8USARTNo==2)?1:2;
 	G_Fpt[L_u8index] = Fptr;
 }
+void MUSART_vWrite_USART1_DataRegister(u8 A_u8Data)
+{
+	USART1->DR = A_u8Data;
+}
 u8   MUSART_u8Retreive_USART1_DataRegister(void)
 {
 	return USART1->DR;
@@ -97,9 +145,15 @@ u8   MUSART_u8Retreive_USART1_DataRegister(void)
 
 void USART1_IRQHandler(void)
 {
-	if(G_Fpt[0] != NULL)
+	// TC interrupt
+	if(GET_BIT(USART1->SR, 6))
 	{
-		G_Fpt[0]();
+		// clear TC
+		CLR_BIT(USART1->SR, 6);
+		if(G_Fpt[0] != NULL) G_Fpt[0]();
+
+	}else{
+		if(G_Fpt[0] != NULL) G_Fpt[0]();
 	}
-	USART1->SR = 0;
+
 }
